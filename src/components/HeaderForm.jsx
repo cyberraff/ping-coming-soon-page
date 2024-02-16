@@ -3,6 +3,8 @@ import LogoImg from '/src/assets/logo.svg';
 function HeaderForm() {
 	const [email, setEmail] = useState('');
 	const [emailData, setEmailData] = useState(false);
+	const [empty, setEmpty] = useState(null);
+	const [wrong, setWrong] = useState(null);
 
 	const isValidEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -10,10 +12,14 @@ function HeaderForm() {
 		e.preventDefault();
 		if (email && email.match(isValidEmail)) {
 			setEmailData(false);
-			console.log('thanks for submiting');
+		} else if (!email) {
+			setEmailData(true);
+			setEmpty('Whoops! It looks like you forgot to add your email');
+			setWrong(null);
 		} else {
 			setEmailData(true);
-			console.log('error');
+			setWrong('Please enter a valid email address');
+			setEmpty(null);
 		}
 	};
 	return (
@@ -42,7 +48,8 @@ function HeaderForm() {
 						/>
 						{emailData && (
 							<p className=' text-red-500 text-sm lg:pl-8 lg:text-start italic pb-4 '>
-								Please enter a valid email address
+								{empty}
+								{wrong}
 							</p>
 						)}
 					</div>
